@@ -6,7 +6,7 @@ import re
 from xml.etree import ElementTree as etree
 import random
 
-# Scraping words to use for the game
+# Scraping words to use for a game
 page = requests.get('https://1000mostcommonwords.com/1000-most-common-english-words/')
 tree = html.document_fromstring(page.content)
 words = tree.xpath('//*[@id="post-192"]/div/table')
@@ -27,10 +27,9 @@ scarps=list(scarps.split(" "))
 # pick a random word
 answer = random.choice(scarps)
 temp_answer = answer
-#print(answer)
+# print(answer)
 
 
-# Game intro 
 print("\n\nLet's play hangman!")
 print("Guess the word character by character!")
 print("You only have 10 chances to save man's life. ")
@@ -129,7 +128,7 @@ def checking(answer):
         char = char.lower()
 
         if not right_or_not(char):
-            print('Please enter valiad input')
+            print('Please enter valid input')
 
         elif char == answer[0]:
             print('Good guess! :) ')
@@ -145,6 +144,8 @@ def checking(answer):
             hangman_figure(count)
             if count == 10:
                 return False
+
+        print(f'Your guess >> {guess}')
 
 
 # Game ending
