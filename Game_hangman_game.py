@@ -134,38 +134,79 @@ def find_char_position(char,word):
 def change_char(s, p, r):
     return s[:p]+r+s[p+1:]
 
+# FUNCTION checking how many time the char appear in word
+def more_than_once(char,word):
+    morethanonce = word.count(char)
+    count=0
+    charcount=[]
+    if morethanonce > 1:
+        for x in word:
+            if x == char:
+                count += 1
+                charcount.append(count-1)
+            else:
+                count += 1
+
+    return charcount
+
+
 # FUNCTION check the answer
 def checking(answer):
-    count=1
-    guess = '_'*len(answer)
-    
+    count = 1
+    guess = '_' * len(answer)
+    temp_answer = answer
+    i = 0
+
     while True:
-        n=0
-        char = input('Enter the character ')
+
+        char = input('\n\nEnter the character ')
         char = char.lower()
-        
+
         if not right_or_not(char):
-            print('Please enter valiad input\n')
-        
-        elif char in answer:
-            print('Good guess! :) \n')
-            n = find_char_position(char,answer)
-            guess = change_char(guess,n,char)
-            if guess == answer:
-                return True
-    
+            print('Please enter valid input\n')
+
+        elif char in temp_answer:
+            charposition = more_than_once(char, answer)
+            print(charposition)
+
+            # if char seen more than once
+            if (len(charposition)>0) and (len(answer) != len(set(answer))):
+
+                print('Good guess! :) \n')
+
+                k = charposition[i]
+                if char == answer[k]:
+                    # n = find_char_position(char, answer)
+                    guess = change_char(guess, k, char)
+                    temp_answer = change_char(temp_answer, k, '_')
+                    i += 1
+
+                else:
+                    n = find_char_position(char, answer)
+                    guess = change_char(guess, n, char)
+                    temp_answer = change_char(temp_answer, n, '_')
+
+                if guess == answer:
+                    return True
+
+            else:
+                print('Good guess! :) \n')
+                n = find_char_position(char, answer)
+                guess = change_char(guess, n, char)
+                temp_answer = change_char(temp_answer, n, '_')
+
+                if guess == answer:
+                    return True
+
         else:
             print('Wrong guess :(')
-            print(f'{10-count} guesses left!\n')
+            print(f'{10 - count} guesses left!\n')
             count += 1
             hangman_figure(count)
-            if count==10:
+            if count == 10:
                 return False
 
-                    
         print(f'Your guess >> {guess}')
-
-
 
 if checking(answer):
     print('\nYou have saved a man! Congrats! :D')
